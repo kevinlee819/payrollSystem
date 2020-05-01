@@ -1,0 +1,93 @@
+   *{
+        padding: 0;
+        margin: 0;
+    }
+    html,body{
+        height:100%;
+    }
+    .wrap{
+        
+        width: 260px;
+        height: 100%;
+        background-color: rgb(151, 151, 151);
+    }
+    .header{
+        width: 100%;
+        height: 70px;
+        background-color: rgb(79, 151, 223);
+        font-size: 24px;
+        color: #fff;
+        text-align: center;
+        line-height: 65px;
+        padding-top: 5px;
+        padding-bottom: 5px; 
+    }
+    .nav{
+        margin: 0 0 0 0;
+    }
+    .funcItem{
+        margin-bottom: 5px;
+    }
+    .funcItem h2{
+        position: relative;
+        padding: 15px 0;
+        background-color: #3889d4;
+        text-align: center;
+        font-size: 16px;
+        color: #fff;
+        transition: .5s;
+    }
+    .funcItem h2.on{
+        background-color:rgb(65, 65, 223);
+    }
+    .funcItem i{
+        position: absolute;
+        right: 10px;
+        top: 16px;
+        border: 8px solid transparent;
+        border-left-color: #fff;/*triangle*/
+        transform:rotate(0deg);
+        transform-origin: 1px 8px;
+        transition: .5s;
+    }
+    .funcItem i.on{
+        transform:rotate(90deg);
+    }
+    .ItemDet{
+        overflow: hidden;
+        height: 0;
+        transition: .5s;
+        text-align: center;
+    }
+    .ItemDet a{
+        padding: 10px 0;
+        background-color: #425fc7;
+        text-align: center;
+        color:#fff;
+        border-bottom:#42495d;
+        width:100%;  
+        position: relative;
+        display: inline-block;       
+    }
+    .ItemDet a:hover{background-color: #2887b3}
+    .funcItem:hover .ItemDet {display: block;} 
+    #flower{
+        position: absolute;
+        left:45%;
+        top:20%;
+        width:30%;
+    }
+    #describe{
+        position: absolute;
+        top:650px;
+        left:46%;
+        
+        color:#3889d4;
+        font-size: 40px;
+    }
+    .btn {
+       position: absolute;
+       left:92%;
+       top:17px;
+       background-color: rgb(241, 241, 241); 
+   }

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.dao.EmployeeDao"><!--命名空间为mapper接口名-->
+    <insert id="insertEmployee" parameterType="com.hust.beans.Employee">
+        insert into employee (employeeName, employeeSex, password, priority,
+                              employeeBirth, IdNumber, departmentName,
+                              positionName, dateOfEntry, dateOfParti,
+                              formOfEmployment, sourceOfEmployment)
+        VALUES (#{employeeName}, #{employeeSex}, #{password}, #{priority},
+                #{employeeBirth}, #{IdNumber}, #{departmentName},
+                #{positionName}, #{dateOfEntry}, #{dateOfParti},
+                #{formOfEmployment}, #{sourceOfEmployment})
+    </insert>
+    <update id="updateEmployee" parameterType="com.hust.beans.Employee">
+        UPDATE employee
+        SET employeeName=#{employeeName},
+            employeeSex=#{employeeSex},
+            employeeBirth=#{employeeBirth},
+            IdNumber=#{IdNumber},
+            departmentName=#{departmentName},
+            positionName=#{positionName},
+            dateOfEntry=#{dateOfEntry},
+            dateOfParti=#{dateOfParti},
+            formOfEmployment=#{formOfEmployment},
+            sourceOfEmployment=#{sourceOfEmployment}
+        WHERE employeeId = #{employeeId}
+    </update>
+    <delete id="deleteEmployeeById" parameterType="int">
+        DELETE
+        FROM employee
+        WHERE employeeId = #{employeeId}
+
+    </delete>
+    <select id="selectEmployeeById" parameterType="int" resultType="com.hust.beans.Employee">
+        select *
+        from employee
+        where employeeId = #{employeeId}
+    </select>
+    <select id="getAllEmployees" resultType="com.hust.beans.Employee">
+        select *
+        from employee
+    </select>
+
+    <select id="exists" resultType="int" parameterType="employee">
+        SELECT IFNULL(
+                       (SELECT 1
+                        FROM employee
+                        WHERE employeeId = #{employeeId}
+                          AND password = #{password}
+                        LIMIT 1)
+                   , 0)
+    </select>
+    <select id="searchEmpByPosName" resultType="employee" parameterType="String">
+        SELECT *
+        FROM employee
+        WHERE positionName = #{positionName}
+    </select>
+    <select id="searchEmpByDepName" resultType="employee" parameterType="String">
+        SELECT *
+        FROM employee
+        WHERE departmentName = #{departmentName}
+    </select>
+    <select id="selectEmpByName" parameterType="String" resultType="employee">
+        select *
+        from employee
+        where employeeName = #{empName}
+    </select>
+</mapper>

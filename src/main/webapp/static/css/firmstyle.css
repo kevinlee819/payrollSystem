@@ -1,0 +1,166 @@
+.basicInfo {
+    padding-top: 10px;
+    background: #fff;
+    margin: 0;
+    border: 1px solid #efefef;
+    border-bottom: 0;
+    margin-bottom: 20px;
+}
+body{
+    background-color:rgb(100, 100, 100);
+}
+.side {
+    box-shadow:5px 5px 8px 0px #ccc;
+}
+#f1,#f2,#f3{
+    cursor: pointer;
+}
+.navigation{
+    box-shadow:0px 5px 8px 0px #ccc;
+}
+.topcard{
+    box-shadow:5px 5px 8px 0px #ccc;
+    padding: 15px 15px 15px 15px;
+    background-color:  rgba(205, 213, 209, 0.555);
+}
+.card-body{
+    margin: 0 0 0 0;
+    background-color:whitesmoke;
+}
+.container{
+    max-width: 1500px;
+}
+.mainbody{
+    width:100%;
+    position: relative;
+    left:0%;
+    padding:0px 0px 20px 0px;
+    margin-right: 0
+}
+.navigation{
+    max-width:1600px;
+    position:relative;
+    background-color: rgb(44, 85, 60);
+    width: 100%;
+}
+.navigation h1{
+    color:white;
+    text-align: center
+}
+.main{
+    margin-left: 10px;
+    margin-right: 0px;
+}
+.list-group-item{
+    background-color:whitesmoke;
+    border:none;
+}
+.list-group-item h3{
+    position: relative;
+    padding: 15px 0;
+    background-color: rgb(69, 112, 81);
+    text-align: center;
+    font-size: 16px;
+    color:#fff;
+    transition: .5s;
+}
+.list-group-item h3.on{
+    background-color: rgb(44, 83, 59);
+}
+.list-group-item i{
+    position: absolute;
+    right: 10px;
+    top: 16px;
+    border: 8px solid transparent;
+    border-left-color: #fff;/*triangle*/
+    transform:rotate(0deg);
+    transform-origin: 1px 8px;
+    transition: .5s;
+}
+.list-group-item i.on{
+    transform:rotate(90deg);
+}
+.ItemDet{
+    overflow: hidden;
+    height: 0;
+    transition: .5s;
+    text-align: center;
+}
+.ItemDet a{
+    padding: 10px 0;
+    /* background-color: rgb(10,85,166); */
+    background-color: rgba(84, 135, 98, 0.9);
+    text-align: center;
+    color:#fff;
+    border-bottom:#42495d;
+    width:100%;
+    position: relative;
+    display: inline-block;
+}
+.card-body li{
+    list-style-type: none;
+    padding: 12px 0 12px 0;
+}
+.card-body li i{
+    right:0%;
+}
+.ItemDet a:hover{
+    /* background-color: rgb(19,118,248); */
+    background-color: rgb(84,135,98);
+}
+.funcItem:hover .ItemDet {display: block;}
+
+table {
+    font-family: Tahoma,Helvetica,Arial,'宋体',sans-serif;
+    font-size:17px;
+    color:#333333;
+    border-width: 2px;
+
+    border-collapse: collapse;
+    background-color: transparent;
+    box-shadow:5px 5px 8px 0px #ccc;
+}
+#alterColor th{
+    border-width: 1px;
+    border-color: rgb(173, 173, 173);
+    background-color:  rgba(205, 213, 209, 0.5);
+}
+#alterColor td {
+    border-width: 1px;
+    border-color: rgb(173, 173, 173);
+}
+.oddrowcolor{
+    background-color:whitesmoke;
+}
+.evenrowcolor{
+    background-color: rgba(205, 213, 209, 0.5);
+}
+
+/* footer */
+.footer{
+    position: absolute;
+    bottom: 0;
+    left: 42%;
+    padding-bottom:0;
+}
+.footer p{
+    position:relative;
+    font-family: 'Droid Sans', sans-serif;
+    color:rgb(44, 83, 59);
+    display: block;
+    font-size:1.2em;
+    font-weight: 400;
+    text-align:center;
+    padding-top:2em;
+}
+.footer p a{
+    color:#000;
+    transition: all 0.5s ease-out;
+    -webkit-transition: all 0.5s ease-out;
+    -moz-transition: all 0.5s ease-out;
+    -ms-transition: all 0.5s ease-out;
+    -o-transition: all 0.5s ease-out;
+}
+.footer p a:hover{
+    color:rgb(44, 83, 59)
+}

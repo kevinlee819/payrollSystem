@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.dao.payroll.ImportProjectInfoDao">
+    <select id="getAllDate" resultType="String">
+        SELECT importDate
+        FROM import_project
+        ORDER BY importDate DESC
+    </select>
+    <delete id="deleteImportProInfoByDate" parameterType="String">
+        DELETE
+        FROM import_project
+        WHERE importDate = #{importDate}
+    </delete>
+    <insert id="createImportProInfo" parameterType="importProjectInfo">
+        INSERT INTO import_project
+        (empId, empName, sickLeaveDay, personalLeaveDay, lateNum, overtimeDay, reissue, importDate)
+        SELECT #{empId},
+               #{empName},
+               #{sickLeaveDay},
+               #{personalLeaveDay},
+               #{lateNum},
+               #{overtimeDay},
+               #{reissue},
+               #{importDate}
+        WHERE NOT
+            EXISTS(
+                    SELECT empId,
+                           importDate
+                    FROM import_project
+                    WHERE empId =
+                          #{empId}
+                      AND importDate = #{importDate}
+                )
+    </insert>
+    <update id="updateImportProInfo" parameterType="importProjectInfo">
+        UPDATE import_project
+        SET empName          = #{empName},
+            sickLeaveDay     = #{sickLeaveDay},
+            personalLeaveDay = #{personalLeaveDay},
+            lateNum          = #{lateNum},
+            overtimeDay      = #{overtimeDay},
+            reissue          = #{reissue}
+        WHERE empId = #{empId}
+          AND importDate = #{importDate}
+    </update>
+    <select id="searchImportProInfoById" parameterType="int" resultType="importProjectInfo">
+        SELECT *
+        FROM import_project
+        WHERE empId = #{empId}
+        ORDER BY importDate DESC
+    </select>
+
+    <select id="searchImportProInfoByDepName" parameterType="String" resultType="importProjectInfo">
+        SELECT empId,
+               empName,
+               sickLeaveDay,
+               personalLeaveDay,
+               lateNum,
+               overtimeDay,
+               reissue,
+               importDate
+        FROM import_project
+                 inner join employee on employee.employeeId = import_project.empId and
+                                        employee.departmentName = #{departmentName}
+        ORDER BY importDate DESC
+    </select>
+
+    <select id="searchImportProInfoByDate" parameterType="String" resultType="importProjectInfo">
+        SELECT *
+        FROM import_project
+        WHERE importDate = #{date}
+    </select>
+
+    <select id="existsImport" parameterType="importProjectInfo" resultType="int">
+        SELECT IFNULL(
+                       (SELECT 1
+                        FROM import_project
+                        WHERE empId = #{empId}
+                          AND importDate = #{importDate}
+                        LIMIT 1)
+                   , 0)
+    </select>
+
+</mapper>

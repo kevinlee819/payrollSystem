@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.dao.payroll.FixedSalaryDao">
+    <select id="getAllDeps" resultType="String">
+        SELECT depName
+        FROM fixed_salary
+        ORDER BY depName
+    </select>
+    <insert id="createFixedSalary" parameterType="fixedSalary">
+        INSERT INTO fixed_salary
+            (empId, empName, basicSalary, heatingSubsidy, depName)
+        VALUES (#{empId}, #{empName}, #{basicSalary}, #{heatingSubsidy}, #{depName})
+    </insert>
+    <update id="updateFixedSalary" parameterType="fixedSalary">
+        UPDATE fixed_salary
+        SET basicSalary    = #{basicSalary},
+            heatingSubsidy = #{heatingSubsidy}
+        WHERE empId = #{empId}
+    </update>
+    <select id="searchFixedSalaryById" parameterType="int" resultType="fixedSalary">
+        SELECT *
+        FROM fixed_salary
+        WHERE empId = #{empId}
+    </select>
+
+    <select id="searchFixedSalaryByDep" parameterType="String" resultType="fixedSalary">
+        SELECT empId, empName, basicSalary, heatingSubsidy, depName
+        FROM fixed_salary
+                 inner join employee on employee.employeeId = fixed_salary.empId and
+                                        employee.departmentName = #{departmentName}
+    </select>
+
+    <select id="searchFixedSalaryByRange" parameterType="com.hust.util.Range" resultType="fixedSalary">
+        SELECT *
+        FROM fixed_salary
+        WHERE (basicSalary BETWEEN #{min} AND #{max})
+           OR (heatingSubsidy BETWEEN #{min} AND #{max})
+    </select>
+
+    <select id="existsEmp" parameterType="int" resultType="int">
+        SELECT IFNULL(
+                       (SELECT 1
+                        FROM fixed_salary
+                        WHERE empId = #{empId}
+                        LIMIT 1)
+                   , 0)
+    </select>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.dao.payroll.SalaryCalculateDao">
+    <resultMap id="salaryCalculate" type="salaryCalculate">
+        <result column="empId1" property="empId"/>
+        <result column="empName1" property="empName"/>
+        <result column="depName" property="depName"/>
+        <result column="importDate" property="date"/>
+        <association property="fixedSalaryPro" javaType="com.hust.beans.payroll.FixedSalary">
+            <result column="empId1" property="empId"/>
+            <result column="empName1" property="empName"/>
+            <result column="basicSalary" property="basicSalary"/>
+            <result column="heatingSubsidy" property="heatingSubsidy"/>
+            <result column="depName" property="depName"/>
+        </association>
+        <association property="importProjectInfo" javaType="com.hust.beans.payroll.ImportProjectInfo">
+            <result column="empId2" property="empId"/>
+            <result column="empName2" property="empName"/>
+            <result column="sickLeaveDay" property="sickLeaveDay"/>
+            <result column="personalLeaveDay" property="personalLeaveDay"/>
+            <result column="lateNum" property="lateNum"/>
+            <result column="overtimeDay" property="overtimeDay"/>
+            <result column="reissue" property="reissue"/>
+            <result column="importDate" property="importDate"/>
+        </association>
+    </resultMap>
+    <select id="searchSalaryByDepAndDate" resultMap="salaryCalculate" parameterType="com.hust.util.DepAndDate">
+        select fixed_salary.empId     empId1,
+               fixed_salary.empName   empName1,
+               fixed_salary.basicSalary,
+               fixed_salary.heatingSubsidy,
+               fixed_salary.depName,
+               import_project.empId   empId2,
+               import_project.empName empName2,
+               import_project.sickLeaveDay,
+               import_project.personalLeaveDay,
+               import_project.lateNum,
+               import_project.reissue,
+               import_project.overtimeDay,
+               import_project.importDate
+        from fixed_salary
+                 INNER JOIN import_project
+                            ON fixed_salary.empId = import_project.empId
+                                AND fixed_salary.depName = #{depName} AND import_project.importDate = #{date}
+    </select>
+
+    <update id="paySalary" parameterType="com.hust.util.DepAndDate">
+        UPDATE import_project
+            INNER JOIN fixed_salary
+            ON fixed_salary.empId = import_project.empId
+                AND fixed_salary.depName = #{depName} AND import_project.importDate = #{date}
+        SET status = 1
+    </update>
+
+    <select id="checkStatus" parameterType="com.hust.util.DepAndDate" resultType="int">
+        SELECT IFNULL(
+                       (SELECT status
+                        FROM import_project
+                                 INNER JOIN fixed_salary
+                                            ON fixed_salary.empId = import_project.empId
+                                                AND fixed_salary.depName = #{depName} AND import_project.importDate = #{date}
+                        LIMIT 1), -1)
+    </select>
+
+    <select id="searchSalaryById" resultMap="salaryCalculate" parameterType="int">
+        select fixed_salary.empId     empId1,
+               fixed_salary.empName   empName1,
+               fixed_salary.basicSalary,
+               fixed_salary.heatingSubsidy,
+               fixed_salary.depName,
+               import_project.empId   empId2,
+               import_project.empName empName2,
+               import_project.sickLeaveDay,
+               import_project.personalLeaveDay,
+               import_project.lateNum,
+               import_project.reissue,
+               import_project.overtimeDay,
+               import_project.importDate
+        from fixed_salary
+                 INNER JOIN import_project
+                            ON fixed_salary.empId = #{empId} AND fixed_salary.empId = import_project.empId
+
+ORDER BY import_project.importDate desc
+    </select>
+    <select id="searchSalaryByRange" resultMap="salaryCalculate" parameterType="com.hust.util.Range">
+        select fixed_salary.empId     empId1,
+               fixed_salary.empName   empName1,
+               fixed_salary.basicSalary,
+               fixed_salary.heatingSubsidy,
+               fixed_salary.depName,
+               import_project.empId   empId2,
+               import_project.empName empName2,
+               import_project.sickLeaveDay,
+               import_project.personalLeaveDay,
+               import_project.lateNum,
+               import_project.reissue,
+               import_project.overtimeDay,
+               import_project.importDate
+        from fixed_salary
+                 INNER JOIN import_project
+                            ON fixed_salary.empId = import_project.empId
+                                AND (import_project.importDate BETWEEN #{startDate} AND #{endDate})
+order by import_project.importDate desc
+</select>
+    <select id="searchSalaryByDep" resultMap="salaryCalculate" parameterType="String">
+        select fixed_salary.empId     empId1,
+               fixed_salary.empName   empName1,
+               fixed_salary.basicSalary,
+               fixed_salary.heatingSubsidy,
+               fixed_salary.depName,
+               import_project.empId   empId2,
+               import_project.empName empName2,
+               import_project.sickLeaveDay,
+               import_project.personalLeaveDay,
+               import_project.lateNum,
+               import_project.reissue,
+               import_project.overtimeDay,
+               import_project.importDate
+        from fixed_salary
+                 INNER JOIN import_project
+                            ON fixed_salary.depName = #{depName}
+                                AND fixed_salary.empId = import_project.empId
+order by import_project.importDate desc
+</select>
+
+</mapper>

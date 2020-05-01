@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!--属性文件-->
+    <context:property-placeholder location="classpath:properties/db.properties"/>
+    <!--数据库连接配置-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url" value="${jdbc_url}" />
+        <property name="username" value="${jdbc_user}" />
+        <property name="password" value="${jdbc_password}" />
+        <!--注意driverClassName-->
+        <property name="driverClassName" value="${jdbc_driver}"/>
+
+        <property name="filters" value="stat" />
+
+        <property name="maxActive" value="20" />
+        <property name="initialSize" value="1" />
+        <property name="maxWait" value="60000" />
+        <property name="minIdle" value="1" />
+
+        <property name="timeBetweenEvictionRunsMillis" value="60000" />
+        <property name="minEvictableIdleTimeMillis" value="300000" />
+
+        <property name="testWhileIdle" value="true" />
+        <property name="testOnBorrow" value="false" />
+        <property name="testOnReturn" value="false" />
+
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxOpenPreparedStatements" value="20" />
+    </bean>
+    <!--创建sqlSessionFactory-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--mybatis配置文件-->
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatisConfig.xml"/>
+    </bean>
+
+    <!--员工-->
+    <bean id="employeeDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.EmployeeDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="employeeService" class="com.hust.service.EmployeeService">
+        <property name="employeeDao" ref="employeeDao"/>
+    </bean>
+
+    <!--部门-->
+    <bean id="departmentDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.DepartmentDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="departmentService" class="com.hust.service.DepartmentService">
+        <property name="departmentDao" ref="departmentDao"/>
+    </bean>
+
+    <!--岗位-->
+    <bean id="positionDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.PositionDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="positionService" class="com.hust.service.PositionService">
+        <property name="positionDao" ref="positionDao"/>
+    </bean>
+
+    <!--工资项目-->
+    <bean id="salaryProjectDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.payroll.SalaryProjectDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="salaryProjectService" class="com.hust.service.payroll.SalaryProjectService">
+        <property name="salaryProjectDao" ref="salaryProjectDao"/>
+    </bean>
+    <!--固定工资项目-->
+    <bean id="fixedSalaryDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.payroll.FixedSalaryDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="fixedSalaryService" class="com.hust.service.payroll.FixedSalaryService">
+        <property name="fixedSalaryDao" ref="fixedSalaryDao"/>
+    </bean>
+    <!--导入项目信息-->
+    <bean id="importProjectInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.payroll.ImportProjectInfoDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="importProjectInfoService" class="com.hust.service.payroll.ImportProjectInfoService">
+        <property name="importProjectInfoDao" ref="importProjectInfoDao"/>
+    </bean>
+
+    <!--计算工资-->
+    <bean id="salaryCalculateDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.payroll.SalaryCalculateDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="salaryCalculateService" class="com.hust.service.payroll.SalaryCalculateService">
+        <property name="salaryCalculateDao" ref="salaryCalculateDao"/>
+    </bean>
+    <!--用户-->
+    <bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.hust.dao.UserDao"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+</beans>

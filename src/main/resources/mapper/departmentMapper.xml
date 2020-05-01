@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.dao.DepartmentDao">
+    <insert id="insertDepartment" parameterType="com.hust.beans.Department">
+        INSERT INTO department
+            (departmentName, departmentType, departmentTel, startDate)
+        VALUES (#{departmentName}, #{departmentType}, #{departmentTel}, #{startDate})
+    </insert>
+    <delete id="deleteDepartmentById" parameterType="int">
+        DELETE
+        FROM department
+        WHERE departmentId = #{departmentId}
+    </delete>
+    <update id="updateDepartment" parameterType="department">
+        UPDATE department
+        SET departmentName=#{departmentName},
+            departmentType=#{departmentType},
+            departmentTel=#{departmentTel}
+        WHERE departmentId = #{departmentId}
+    </update>
+    <select id="getAllDepartments" resultType="department">
+        SELECT *
+        FROM department
+    </select>
+    <select id="searchDepById" resultType="department" parameterType="int">
+        SELECT *
+        FROM department
+        WHERE departmentId = #{departmentId}
+    </select>
+    <select id="searchDepListByNameOrType" resultType="department" parameterType="String">
+        SELECT *
+        FROM department
+        WHERE departmentName = #{s}
+           OR departmentType = #{s}
+    </select>
+    <select id="searchDepEmpById" parameterType="int" resultType="com.hust.beans.Employee">
+        select employeeId,
+               employeeName,
+               employeeSex,
+               employeeBirth,
+               IdNumber,
+               employee.departmentName,
+               positionName,
+               dateOfEntry,
+               dateOfParti,
+               formOfEmployment,
+               sourceOfEmployment
+        from department
+                 inner join employee
+        where department.departmentId = #{depId}
+          and employee.departmentName = department.departmentName
+        order by employeeId
+    </select>
+
+    <select id="searchDepEmpByType" parameterType="String" resultType="com.hust.beans.Employee">
+        select employeeId,
+               employeeName,
+               employeeSex,
+               employeeBirth,
+               IdNumber,
+               employee.departmentName,
+               positionName,
+               dateOfEntry,
+               dateOfParti,
+               formOfEmployment,
+               sourceOfEmployment
+        from department
+                 inner join employee
+        where department.departmentType = #{depType}
+          and employee.departmentName = department.departmentName
+        order by employeeId
+    </select>
+
+    <select id="searchDepEmpByName" parameterType="String" resultType="com.hust.beans.Employee">
+        select employeeId,
+               employeeName,
+               employeeSex,
+               employeeBirth,
+               IdNumber,
+               employee.departmentName,
+               positionName,
+               dateOfEntry,
+               dateOfParti,
+               formOfEmployment,
+               sourceOfEmployment
+        from department
+                 inner join employee
+        where department.departmentName = #{depName}
+          and employee.departmentName = department.departmentName
+        order by employeeId
+    </select>
+
+</mapper>

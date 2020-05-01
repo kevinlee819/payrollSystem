@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.dao.PositionDao">
+    <insert id="insertPosition" parameterType="position">
+        INSERT INTO position
+            (positionName, positionType, employeeNum)
+        VALUES (#{positionName}, #{positionType}, #{employeeNum})
+    </insert>
+    <delete id="deletePositionById" parameterType="int">
+        DELETE
+        FROM position
+        WHERE positionId = #{positionId}
+    </delete>
+    <update id="updatePosition" parameterType="position">
+        UPDATE position
+        SET positionName=#{positionName},
+            positionType=#{positionType},
+            employeeNum=#{employeeNum}
+        WHERE positionId = #{positionId}
+    </update>
+    <select id="getAllPositions" resultType="position">
+        SELECT *
+        FROM position
+    </select>
+    <select id="searchPosListByNameOrType" resultType="position" parameterType="String">
+        SELECT *
+        FROM position
+        WHERE positionName = #{s}
+           OR positionType = #{s}
+    </select>
+
+    <select id="searchPosEmpById" parameterType="int" resultType="com.hust.beans.Employee">
+        select employeeId,
+               employeeName,
+               employeeSex,
+               employeeBirth,
+               IdNumber,
+               departmentName,
+               employee.positionName,
+               dateOfEntry,
+               dateOfParti,
+               formOfEmployment,
+               sourceOfEmployment
+        from position
+                 inner join employee
+        where position.positionId = #{depId}
+          and employee.positionName = position.positionName
+        order by employeeId
+    </select>
+
+    <select id="searchPosEmpByType" parameterType="String" resultType="com.hust.beans.Employee">
+        select employeeId,
+               employeeName,
+               employeeSex,
+               employeeBirth,
+               IdNumber,
+               departmentName,
+               employee.positionName,
+               dateOfEntry,
+               dateOfParti,
+               formOfEmployment,
+               sourceOfEmployment
+        from position
+                 inner join employee
+        where position.positionType = #{PosType}
+          and employee.positionName = position.positionName
+        order by employeeId
+    </select>
+
+    <select id="searchPosEmpByName" parameterType="String" resultType="com.hust.beans.Employee">
+        select employeeId,
+               employeeName,
+               employeeSex,
+               employeeBirth,
+               IdNumber,
+               departmentName,
+               employee.positionName,
+               dateOfEntry,
+               dateOfParti,
+               formOfEmployment,
+               sourceOfEmployment
+        from position
+                 inner join employee
+        where position.positionName = #{posName}
+          and employee.positionName = position.positionName
+        order by employeeId
+    </select>
+
+
+</mapper>

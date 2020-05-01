@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hust.dao.payroll.SalaryProjectDao">
+    <select id="getAllSalaryPros" resultType="salaryProject">
+        SELECT *
+        FROM salary_project
+    </select>
+    <select id="searchSalaryProById" parameterType="int" resultType="salaryProject">
+        SELECT *
+        FROM salary_project
+        WHERE salaryProId = #{salaryProId}
+    </select>
+    <insert id="createSalaryPro" parameterType="salaryProject">
+        INSERT INTO salary_project
+            (salaryProName, salaryProType, isDisplayed, displayOrder, incOrDec)
+        VALUES (#{salaryProName},
+                #{salaryProType},
+                #{isDisplayed},
+                #{displayOrder},
+                #{incOrDec})
+    </insert>
+    <delete id="deleteSalaryProByName" parameterType="String">
+        DELETE
+        FROM salary_project
+        WHERE salaryProName = #{salaryProName}
+    </delete>
+    <update id="updateSalaryPro" parameterType="salaryProject">
+        UPDATE salary_project
+        SET salaryProName = #{salaryProName},
+            salaryProType = #{salaryProType},
+            isDisplayed   = #{isDisplayed},
+            displayOrder  = #{displayOrder},
+            incOrDec      = #{incOrDec}
+        WHERE salaryProId = #{salaryProId}
+    </update>
+    <select id="searchByNameOrType" resultType="salaryProject" parameterType="String">
+        SELECT *
+        FROM salary_project
+        WHERE salaryProName = #{nameOrType}
+           OR salaryProType = #{nameOrType}
+    </select>
+
+    <select id="existThisName" parameterType="String" resultType="int">
+        SELECT IFNULL(
+                       (SELECT 1
+                        FROM salary_project
+                        WHERE salaryProName = #{salaryProName}
+                        LIMIT 1)
+                   , 0)
+    </select>
+
+    <select id="existRealPro" parameterType="String" resultType="int">
+        SELECT IFNULL(
+                       (SELECT 1
+                        FROM salary_project
+                        WHERE salaryProType = '实发项目'
+                        LIMIT 1),
+                       0
+                   )
+    </select>
+</mapper>

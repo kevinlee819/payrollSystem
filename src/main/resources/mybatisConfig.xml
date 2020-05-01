@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+    <settings>
+        <!--当返回行的所有列都是空时，MyBatis默认返回null-->
+        <setting name="returnInstanceForEmptyRow" value="true"/>
+    </settings>
+    <!--设置类型别名-->
+    <typeAliases>
+        <typeAlias type="com.hust.beans.Employee" alias="employee"/>
+        <typeAlias type="com.hust.beans.Department" alias="department"/>
+        <typeAlias type="com.hust.beans.Position" alias="position"/>
+        <typeAlias type="com.hust.beans.payroll.ImportProjectInfo" alias="importProjectInfo"/>
+        <typeAlias type="com.hust.beans.payroll.FixedSalary" alias="fixedSalary"/>
+        <typeAlias type="com.hust.beans.payroll.SalaryProject" alias="salaryProject"/>
+        <typeAlias type="com.hust.beans.payroll.SalaryCalculate" alias="salaryCalculate"/>
+    </typeAliases>
+    <!--引入mapper配置文件-->
+    <mappers>
+        <!--suppress CheckTagEmptyBody -->
+        <mapper resource="mapper/employeeMapper.xml"/>
+        <mapper resource="mapper/departmentMapper.xml"/>
+        <mapper resource="mapper/positionMapper.xml"/>
+        <mapper resource="mapper/payroll/fixedSalaryMapper.xml"/>
+        <mapper resource="mapper/payroll/importProjectInfoMapper.xml"/>
+        <mapper resource="mapper/payroll/salaryProjectMapper.xml"/>
+        <mapper resource="mapper/payroll/salaryCalculateMapper.xml"/>
+        <mapper resource="mapper/userMapper.xml"/>
+    </mappers>
+</configuration>
